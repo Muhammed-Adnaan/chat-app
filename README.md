@@ -1,0 +1,1 @@
+[embed]"C:\Users\muham\Documents\node\char-app\MINI PROJECT-WEBAPP.pdf"[/embed]
