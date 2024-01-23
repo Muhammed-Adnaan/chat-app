@@ -1,1 +1,1 @@
-[embed]"C:\Users\muham\Documents\node\char-app\MINI PROJECT-WEBAPP.pdf"[/embed]
+[embed]"https://github.com/Muhammed-Adnaan/chat-app/blob/main/MINI%20PROJECT-WEBAPP.pdf"[/embed]
