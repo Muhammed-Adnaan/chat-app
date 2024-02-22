@@ -1,0 +1,104 @@
+<!-- public/signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Chat App - Sign Up</title>
+</head>
+<body>
+  <div class="container">
+    <div class="signupForm">
+      <h2>Sign Up</h2>
+      <label for="usernameInput">Username</label>
+      <input type="text" id="usernameInput" ><br>
+      <label for="usernameInput">Password</label> 
+      <input type="password" id="passwordInput">
+      <br>
+      <span>
+        Dont Have Account 
+        <a href="register.html">Click here</a>
+      </span>
+      <button onclick="signup()">Sign Up</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // public/js/signup.js
+const socket = io();
+
+function signup() {
+  const usernameInput = document.getElementById('usernameInput').value;
+  if (usernameInput.trim() !== '') {
+    // Redirect to the chat page after signup
+    window.location.href = `/index.html?username=${usernameInput}`;
+  } else {
+    alert('Please enter a valid username.');
+  }
+}
+
+
+  </script>
+</body>
+<style>
+  body{
+    background: linear-gradient(120deg, #17bebb, #f0a6ca);
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vh;
+      }
+  span{
+    color:#fc0fa5;
+    padding-bottom: 15px;
+    text-align: center;
+  }
+  label{
+    color: whitesmoke;
+    margin-bottom: 10px;
+  }
+  h2{
+    text-align: center;
+    color: whitesmoke;
+    
+  }
+  a{
+    color: whitesmoke;
+    text-decoration: none;
+    
+  }
+  .container{
+    height: 100vh;
+    width: 100vh;
+    display: flex;
+    align-items:center ;
+    justify-content: center;
+    transform: translate(400px,-100px);
+  }
+  .signupForm{
+    height: 300px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  input, button{
+    background-color: #0202022b;
+    border: #17bebb;
+    border-radius: 5px;
+    color: aliceblue;
+    height: 20px;
+    
+  }
+input:focus{
+  border-color: #f0a6ca;
+  box-shadow:0 0 20px #f0a6ca;
+  outline: none;
+}
+  button{
+    transform: translateX(17%);
+    cursor: pointer;
+    height: 50px;
+    width: 75%;
+  }
+</style>
+</html>

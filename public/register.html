@@ -1,0 +1,105 @@
+<!-- public/signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Chat App - Sign Up</title>
+</head>
+<body>
+  <div class="container">
+    <div class="signupForm">
+      <h2>Register</h2>
+      <label for="usernameInput">Username</label>
+      <input type="text" id="usernameInput" placeholder="Display Name"><br> 
+      <label for="usernameInput">Password</label> 
+      <input type="password" id="passwordInput" placeholder="Cant change again better remember it !!! "><br>
+      <label  for="emailInput">Email</label>
+      <input type="email" id="emailInput" placeholder="yo@yahoo.in"><br>
+      <label for="dateOfBirth">Date Of Birth</label> 
+      <input type="date" id="date"><br>
+
+      <br>
+      <span>
+        Already Have Account 
+        <a href="signup.html">Click here</a>
+      </span>
+      <button onclick="signup()">Sign Up</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+ 
+</body>
+<style>
+
+    body{
+    background: linear-gradient(120deg, #17bebb, #f0a6ca);
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vh;
+    color: aliceblue;
+      }
+      a{
+        text-decoration: none;
+        color: aliceblue;
+      }
+      h2{
+    text-align: center;
+    color: whitesmoke;
+  }
+      .container {
+        height: 100vh;
+        width: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+      }
+      .signupForm{
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        width: 300px;
+        transform: translate(400px,-100px);
+      }
+      label{
+        padding-bottom: 10px;
+      }
+      input{
+        background-color: #ffffff2b;
+        border: #17bebb;
+        border-radius: 5px;
+        color: aliceblue;
+        height: 25px;
+      }
+      input:focus{
+        border-color: #f0a6ca;
+        box-shadow:0 0 20px #f0a6ca;
+        outline: none;
+    }
+    input::placeholder{
+        color: #e7037198
+    }
+    #date{
+        height: 35px;
+    }
+      span{
+        color:#fc0fa5;
+        padding-bottom: 15px;
+        text-align: center;
+      }  
+      button{
+        background-color: #0202022b;
+        border-radius: 5px;
+        border: #17bebb;
+        color: aliceblue;
+        transform: translateX(17%);
+        cursor: pointer;
+        height: 50px;
+        width: 75%;
+      }
+
+  
+</style>
+</html>
