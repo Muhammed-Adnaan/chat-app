@@ -1,7 +1,10 @@
 const { json } = require('body-parser');
 const mysql = require('mysql2');
+// const { getUserData } = require('./app.js');
+// const userData = getUserData;1
 
-const port = 3001;
+// console.log(userData);
+
 
 // Create a MySQL connection
 const db = mysql.createConnection({
@@ -12,6 +15,7 @@ const db = mysql.createConnection({
   insecureAuth : true
 });
 
+
 // Connect to MySQL
 db.connect((err) => {
   if (err) {
@@ -21,10 +25,10 @@ db.connect((err) => {
   console.log('Connected to MySQL');
 });
 
-let sql =  `select * from app`;
 function append(obj, key, value) {
   obj[key] = value;
 }
+let sql =  `select * from app`;
 
 let usernames = [];
 db.execute(sql, function(err,result){
@@ -41,5 +45,24 @@ db.execute(sql, function(err,result){
   console.log(`${usernames} sent it to server`);
 });
 
-module.exports = usernames;
+function usersInput(usersData){
+  let sql = `insert into app(username,email,date_of_birth,Password) value ('${usersData.username}', '${usersData.email}','${usersData.dateOfBirth}', '${usersData.password}')`;
+  db.execute(sql,function(err,result){
+    if(err) throw err;
+    console.log(result);
+  })
+  return console.log(sql);
+}
+
+module.exports = {
+  usernames,
+  usersInput
+};
+
+// module.exports.usersInput = usersInput;
+
+// module.exports = usernames;
+
+
+
 

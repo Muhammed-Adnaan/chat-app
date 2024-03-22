@@ -4,34 +4,124 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real-Time Chat App - Sign Up</title>
+  <title>Real-Time Chat App-Register Up</title>
 </head>
 <body>
   <div class="container">
     <div class="signupForm">
-      <h2>Register</h2>
-      <label for="usernameInput">Username</label>
-      <input type="text" id="usernameInput" placeholder="Display Name"><br> 
-      <label for="usernameInput">Password</label> 
-      <input type="password" id="passwordInput" placeholder="Cant change again better remember it !!! "><br>
-      <label  for="emailInput">Email</label>
-      <input type="email" id="emailInput" placeholder="yo@yahoo.in"><br>
-      <label for="dateOfBirth">Date Of Birth</label> 
-      <input type="date" id="date"><br>
+        <form action="/register" method="POST">
 
-      <br>
-      <span>
-        Already Have Account 
-        <a href="signup.html">Click here</a>
-      </span>
-      <button onclick="signup()">Sign Up</button>
+        <h2>Register</h2>
+        <label for="username">Username</label><br>
+        <input type="text" id="username" name="username" placeholder="Display Name" required><br>
+      
+        <label for="email">Email</label><br>
+        <input type="email" id="email" name="email" placeholder="yo@yahoo.com" required><br>
+      
+        <label for="dateOfBirth">Date of Birth</label><br>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" required><br>
+      
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="password" placeholder="password" required><br>
+      
+        <label for="confirmPassword">Confirm Password</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter agian so you dont forget" required>
+    
+          <br>
+          <span>
+            Already Have Account 
+            <a href="signup.html">Click here</a>
+          </span>
+          <button type="submit" >Sign Up</button>
+        </form>
     </div>
   </div>
 
-  <script src="/socket.io/socket.io.js"></script>
- 
+  <!-- <script src="/socket.io/socket.io.js"></script> -->
+ <script>
+  // const password = document.getElementById('password');
+  // const confirmPassword = document.getElementById('confirmPassword');
+  // function checkingMarch() {
+  //   if(password !== confirmPassword || password == null || confirmPassword == null){
+  //     alert("Password not match");
+  //   }else{
+  //     window.history.replaceState(null,null,`/register`);
+  //   }
+  // }
+ </script>
 </body>
 <style>
+  body {
+  background: linear-gradient(120deg, #17bebb, #f0a6ca);
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  color: aliceblue;
+}
+
+.container {
+  width: 100%; /* Allow container to fill width */
+  max-width: 500px; /* Set a maximum width for larger screens */
+  padding: 20px;
+}
+
+.signupForm {
+  background-color: #0202022b;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  text-align: center;
+  color: whitesmoke;
+  margin-bottom: 15px;
+}
+
+label {
+  color: whitesmoke;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input,
+button {
+  background-color: transparent;
+  border: 1px solid #17bebb;
+  border-radius: 5px;
+  color: aliceblue;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #f0a6ca;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+span {
+  color: #fc0fa5;
+  text-align: center;
+  margin-top: 10px;
+}
+
+a {
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+</style>
+<!-- <style>
 
     body{
     background: linear-gradient(120deg, #17bebb, #f0a6ca);
@@ -39,67 +129,59 @@
     height: 100vh;
     width: 100vh;
     color: aliceblue;
-      }
-      a{
-        text-decoration: none;
-        color: aliceblue;
-      }
-      h2{
-    text-align: center;
+    }
+    .container{
+      height: auto;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    } 
+    .signupForm{
+      height: auto;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+    }  
+    input,button{
+      background-color: #0202022b;
+      border: #17bebb;
+      border-radius: 5px;
+      color: aliceblue;
+      height: 30px;
+      margin-bottom: 10px;
+    }
+    input{
+      width: 400px;
+    }
+    input:focus{
+      border-color: #f0a6ca;
+      box-shadow: 0 0 20px #f0a6ca;
+      outline: none;
+    }
+    span{
+      color:#fc0fa5;
+      padding-bottom: 15px;
+    }
+    label{
     color: whitesmoke;
+    margin-bottom: 20px;
+    }
+    h2{
+    color: whitesmoke;
+    transform: translateX(150px);
+    }
+    a{
+    color: whitesmoke;
+    text-decoration: none; 
   }
-      .container {
-        height: 100vh;
-        width: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-      }
-      .signupForm{
-        display: flex;
-        flex-direction: column;
-        height: auto;
-        width: 300px;
-        transform: translate(400px,-100px);
-      }
-      label{
-        padding-bottom: 10px;
-      }
-      input{
-        background-color: #ffffff2b;
-        border: #17bebb;
-        border-radius: 5px;
-        color: aliceblue;
-        height: 25px;
-      }
-      input:focus{
-        border-color: #f0a6ca;
-        box-shadow:0 0 20px #f0a6ca;
-        outline: none;
-    }
-    input::placeholder{
-        color: #e7037198
-    }
-    #date{
-        height: 35px;
-    }
-      span{
-        color:#fc0fa5;
-        padding-bottom: 15px;
-        text-align: center;
-      }  
-      button{
-        background-color: #0202022b;
-        border-radius: 5px;
-        border: #17bebb;
-        color: aliceblue;
-        transform: translateX(17%);
-        cursor: pointer;
-        height: 50px;
-        width: 75%;
-      }
+  button{
+    cursor: pointer;
+    height: 50px;
+    width: 300px;
+    transform: translate(50px,0);
+  }
 
   
-</style>
+</style> -->
 </html>

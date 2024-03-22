@@ -4,38 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real-Time Chat App - Sign Up</title>
+  <title>Real-Time Chat App -Admin Sign Up</title>
 </head>
 <body>
-  <form action="/signup" method="POST">
+  <form action="/admin" method="POST">
   <div class="container">
     <div class="signupForm">
-        <h2>Sign Up</h2>
-        <label for="usernameInput">Username</label>
-        <input type="text" id="username" name="username"><br>
+        <h2>Admin Login</h2>
+        <label for="usernameInput">Admin User Name</label>
+        <input type="text" id="admin" name="admin"><br>
         <label for="usernameInput">Password</label> 
         <input type="password" id="Password" name="Password">
         <br>
-        <span>
-          Dont Have Account 
-          <a href="register.html">Click here</a>
-        </span>
         <button onclick="signup()">Sign Up</button>
       </div>
     </div>
   </form>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    // public/js/signup.js
-const socket = io();
-
-function signup() {
-  const usernameInput = document.getElementById('username').value;
-  if (usernameInput.trim() == '') {
-    alert('Please enter a valid username.');
-  }
-}
 
 
   </script>

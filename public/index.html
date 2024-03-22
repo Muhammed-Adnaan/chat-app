@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>text</title>
     <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     <script src="//code.angularjs.org/1.6.0/angular.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>     -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body>
+  <nav>
+    <ul>
+      <li><a href="/signup" >Log Out</a></li>
+      <li onclick="updateUserList()" style="cursor: pointer;"> <a>Refresh</a></li>
+    </ul>
+  </nav>
     <div class='container'>
         <div class='chatbox'>
           <div class='chatbox__user-list'>
@@ -34,6 +40,37 @@
           if(username == null){
             window.location.href = `/signup`;
           }
+          function updateUserList() {
+    fetchUserList();
+}
+          function fetchUserList() {
+    fetch('/usersList')
+    .then(response => {
+        // Parse JSON response
+        return response.json();
+    })
+    .then(users => {
+        // Get the list element
+        const userList = document.getElementById('usersList');
+
+        // Clear any existing content
+        userList.innerHTML = '';
+
+        // Loop through users and create list items
+        users.forEach(user => {
+            const listItem = document.createElement('div');
+            listItem.id = "roomInput";
+            listItem.textContent = `${user}`;
+            listItem.onclick = function() {
+                joinRoom(this);
+            };
+            userList.appendChild(listItem);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
           fetch('/users')
           .then(response => {
@@ -78,7 +115,13 @@
       window.history.replaceState(null,null,`?username=${username}&room=${user}`); 
       
     }
-    
+    document.getElementById('messageInput').addEventListener('keyup', function(event) {
+        // Check if the Enter key is pressed (key code 13)
+        if (event.keyCode === 13) {
+            // Call sendMessage function
+            sendMessage();
+        }
+    });
     function sendMessage() {
       const room =new URLSearchParams(window.location.search).get('room');
       const messageInput = document.getElementById('messageInput').value;
@@ -97,176 +140,286 @@
 </body>
 <style>
   * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Nunito", sans-serif;
-  }
-  
-  html,
-  body {
-    background: linear-gradient(120deg, #17bebb, #f0a6ca);
-    overflow: hidden;
-  }
-  
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-  }
-  .container h1 {
-    margin: 0.5em auto;
-    color: #fff;
-    text-align: center;
-  }
-  
-  .chatbox {
-    background: rgba(255, 255, 255, 0.05);
-    width: 600px;
-    height: 75%;
-    border-radius: 0.2em;
-    position: relative;
-    box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
-  }
-  .chatbox__messages:nth-of-type(odd) .chatbox__messages__user-message--ind-message {
-    float: right;
-  }
-  .chatbox__messages:nth-of-type(odd) .chatbox__messages__user-message--ind-message:after {
-    content: "";
-    position: absolute;
-    margin: -1.5em -17.06em;
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 10px solid rgba(255, 255, 255, 0.2);
-  }
-  .chatbox__messages:nth-of-type(even) .chatbox__messages__user-message--ind-message {
-    float: left;
-  }
-  .chatbox__messages:nth-of-type(even) .chatbox__messages__user-message--ind-message:after {
-    content: "";
-    position: absolute;
-    margin: -1.5em 1.87em;
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 10px solid rgba(255, 255, 255, 0.2);
-  }
-  .chatbox__messages__user-message {
-    width: 450px;
-  }
-  .chatbox__messages__user-message--ind-message {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 1em 0;
-    height: auto;
-    width: 65%;
-    border-radius: 5px;
-    margin: 2em 1em;
-    overflow: auto;
-  }
-  .chatbox__messages__user-message--ind-message > p.name {
-    color: #fff;
-    font-size: 1em;
-  }
-  .chatbox__messages__user-message--ind-message > p.message {
-    color: #fff;
-    font-size: 0.7em;
-    margin: 0 2.8em;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+}
+
+html,
+body {
+  background: linear-gradient(120deg, #17bebb, #f0a6ca);
+  overflow: hidden; /* Prevent body scrolling */
+  min-height: 100vh; /* Set minimum viewport height */
+}
+nav {
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between; /* Align links horizontally */
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+    }
+
+    nav a:hover {
+      background-color: rgba(0, 0, 0, 0.7); /* Darken on hover */
+    }
+    a {
+      color:wheat; /* Change link color */
+      text-decoration: none;
+    }
+    ul{
+      display: flex;
+    }
+    li{
+      display: flex;
+      color: wheat;
+    }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.container h1 {
+  margin: 0.5em auto;
+  color: #fff;
+  text-align: center;
+}
+
+.chatbox {
+  background: rgba(255, 255, 255, 0.05);
+  width: 600px;
+  height: 75%;
+  border-radius: 0.2em;
+  position: relative;
+  box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chatbox__user-list {
+  background: rgba(255, 255, 255, 0.1);
+  width: 25%;
+  height: 100%;
+  float: right; /* Removed for responsiveness */
+  border-top-right-radius: 0.2em;
+  border-bottom-right-radius: 0.2em;
+}
+.chatbox__messages:nth-of-type(odd) .chatbox__messages__user-message--ind-message {
+  float: right; /* Removed for responsiveness */
+}
+
+.chatbox__messages:nth-of-type(odd) .chatbox__messages__user-message--ind-message:after {
+  content: "";
+  position: absolute;
+  margin: -1.5em -17.06em;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgba(255, 255, 255, 0.2);
+}
+
+.chatbox__messages:nth-of-type(even) .chatbox__messages__user-message--ind-message {
+  float: left; /* Removed for responsiveness */
+}
+
+.chatbox__messages:nth-of-type(even) .chatbox__messages__user-message--ind-message:after {
+  content: "";
+  position: absolute;
+  margin: -1.5em 1.87em;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid rgba(255, 255, 255, 0.2);
+}
+
+.chatbox__messages__user-message {
+  width: 450px; /* Adjust for responsiveness later */
+}
+
+.chatbox__messages__user-message--ind-message {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1em 0;
+  height: auto;
+  width: 65%;
+  border-radius: 5px;
+  margin: 2em 1em;
+  overflow: auto;
+}
+
+.chatbox__messages__user-message--ind-message > p.name {
+  color: #fff;
+  font-size: 1em;
+}
+
+.chatbox__messages__user-message--ind-message > p.message {
+  color: #fff;
+  font-size: 0.7em;
+  margin: 0 2.8em;
+}
+
+/* Responsive adjustments (add to messages.css) */
+@media only screen and (max-width: 768px) {
   .chatbox__user-list {
-    background: rgba(255, 255, 255, 0.1);
-    width: 25%;
-    height: 100%;
-    float: right;
-    border-top-right-radius: 0.2em;
-    border-bottom-right-radius: 0.2em;
-  }
-  .chatbox__user-list h1 {
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9em;
-    padding: 1em;
-    margin: 0;
-    font-weight: 300;
-    text-align: center;
-  }
-  .chatbox__user, .chatbox__user--away, .chatbox__user--busy, .chatbox__user--active {
-    width: 0.5em;
-    height: 0.5em;
-    border-radius: 100%;
-    margin: 1em 0.7em;
+    display: none; /* Hide user list on small screens */
   }
 
-  #roomInput{
-    color: rgba(255, 255, 255, 0.9);
-    padding: 5px;
-    font-family: "Nunito", sans-serif;
+  .chatbox__messages {
+    width: 100%; /* Messages take full width on small screens */
   }
-  .chatbox__user--active {
-    background: rgba(23, 190, 187, 0.8);
+
+  .chatbox__messages__user-message {
+    width: calc(100% - 100px); /* Adjust message width for smaller screens */
   }
-  .chatbox__user--busy {
-    background: rgba(252, 100, 113, 0.8);
-  }
-  .chatbox__user--away {
-    background: rgba(255, 253, 130, 0.8);
-  }
-  .chatbox p {
-    font-family: "Nunito", sans-serif;
-    float: left;
-    text-align: left;
-    margin: -0.25em 2em;
-    font-size: 0.95em;
-    font-weight: 300;
-    color: #fff;
-    width: 300px;
-  }
+
   #messageInput {
-    background: #222;
+    width: 80%; /* Adjust message input width for smaller screens */
   }
-  #messageInput  {
-    background: rgba(255, 255, 255, 0.03);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border: none;
-    width: 75%;
-    padding: 1.2em;
-    outline: none;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 300;
+
+  .messageInput-btn {
+    width: 20%; /* Adjust send button width for smaller screens */
   }
-  .messageInput-btn{
-    background: rgba(255, 255, 255, 0.138);
-    position: absolute;
-    bottom: 0;
-    left: 450px;
-    border: none;
-    width: 25%;
-    padding: 1.2em;
-    outline: none;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 300;
-  } 
-  ::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.9);
+}
+.chatbox__user-list h1 {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9em;
+  padding: 1em;
+  margin: 0;
+  font-weight: 300;
+  text-align: center;
+}
+
+.chatbox__user,
+.chatbox__user--away,
+.chatbox__user--busy,
+.chatbox__user--active {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 100%;
+  margin: 1em 0.7em;
+}
+
+.chatbox__user--active {
+  background: rgba(23, 190, 187, 0.8);
+}
+
+.chatbox__user--busy {
+  background: rgba(252, 100, 113, 0.8);
+}
+
+.chatbox__user--away {
+  background: rgba(255, 253, 130, 0.8);
+}
+
+#roomInput {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 5px;
+  font-family: "Nunito", sans-serif;
+}
+
+#messageInput {
+  background-color: rgba(255, 255, 255, 0.03);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border: none;
+  width: 75%;
+  padding: 1.2em;
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+input {
+  background-color: transparent;
+}
+
+.messageInput-btn {
+  background: rgba(255, 255, 255, 0.138);
+  position: absolute;
+  bottom: 0;
+  left: 450px; /* Adjust for responsiveness later */
+  border: none;
+  width: 25%;
+  padding: 1.2em;
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+/* user-input.css (continued) */
+
+#roomInput {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 5px;
+  font-family: "Nunito", sans-serif;
+}
+
+#messageInput {
+  background-color: rgba(255, 255, 255, 0.03);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border: none;
+  width: 75%;
+  padding: 1.2em;
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+input {
+  background-color: transparent;
+}
+
+.messageInput-btn {
+  background: rgba(255, 255, 255, 0.138);
+  position: absolute;
+  bottom: 0;
+  left: 450px; /* Adjust for responsiveness later */
+  border: none;
+  width: 25%;
+  padding: 1.2em;
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+/* Responsive adjustments (add to user-input.css) */
+@media only screen and (max-width: 768px) {
+  #messageInput {
+    width: 80%; /* Adjust message input width for smaller screens */
   }
-  
-  :-moz-placeholder {
-    color: rgba(255, 255, 255, 0.9);
+
+  .messageInput-btn {
+    width: 20%; /* Adjust send button width for smaller screens */
+    left: calc(100% - 20%); /* Position button at right edge */
   }
-  
-  ::-moz-placeholder {
-    color: rgba(255, 255, 255, 0.9);
-  }
-  
-  :-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.9);
-  }
+}
+p{
+  color: #fff;
+}
+
 </style>
 </html>
