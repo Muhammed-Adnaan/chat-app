@@ -70,6 +70,7 @@ app.get('/users', (req, res) => {
   res.json( userHandel.usernames);
 });
 
+let date = new Date();
 app.post('/signup', async (req, res) => {
   const { username, Password } = req.body; // Extract username and password from request body
   const userData = { username, Password };
@@ -85,7 +86,6 @@ app.post('/signup', async (req, res) => {
       SELECT * FROM app 
       WHERE username = "${userData.username}" && password = "${userData.Password}"
       `;
-      let date = new Date();
       const sql2 = `insert into login_logs(email,login_time) VALUES('${userData.username}','${date}')`
       db.execute(sql2,(err,res)=>{
         if(err) throw err ;
@@ -292,7 +292,7 @@ io.on('connection', (socket) => {
   socket.on('chatMessage', (data) => {
     // io.to(data.room).emit('message', `${data.username}${socket.id}: ${data.message}`);
     io.to(data.room).emit('message', `${data.username}: ${data.message}`);
-     const sql = `insert into msg(username,message) value ('${data.username}', '${data.message}'); `
+     const sql = `insert into msg(username,message,datetime) value ('${data.username}', '${data.message}','${date}'); `
      db.execute(sql, function(error, data){
           if(data){
             console.log('text');
